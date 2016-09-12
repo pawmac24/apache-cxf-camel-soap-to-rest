@@ -103,7 +103,8 @@
 							<sourceRoot>src/main/java-generated</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>http://localhost:8080/apache-cxf-jax-ws-demo/services/orders?wsdl</wsdl>
+									<!--<wsdl>http://localhost:8080/apache-cxf-jax-ws-demo/services/orders?wsdl</wsdl>-->
+									<wsdl>${basedir}/src/main/resources/wsdl/Orders.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
