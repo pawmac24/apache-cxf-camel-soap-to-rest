@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:pawel="http://www.pm.company.com/schema/Pawel"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.pm.company.com/Pawel/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="Pawel" targetNamespace="http://www.pm.company.com/Pawel/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.pm.company.com/Pawel/">
+			<xsd:import namespace="http://www.pm.company.com/schema/Pawel" schemaLocation="../xsd/Pawel.xsd"></xsd:import>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="FirstOperationRequest">
+		<wsdl:part element="pawel:FirstOperation" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="FirstOperationResponse">
+		<wsdl:part element="pawel:FirstOperationResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:portType name="Pawel">
+		<wsdl:operation name="FirstOperation">
+			<wsdl:input message="tns:FirstOperationRequest" />
+			<wsdl:output message="tns:FirstOperationResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PawelSOAP" type="tns:Pawel">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="FirstOperation">
+			<soap:operation soapAction="http://www.pm.company.com/Pawel/FirstOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Pawel">
+		<wsdl:port binding="tns:PawelSOAP" name="PawelSOAP">
+			<soap:address location="http://localhost:8080/apache-cxf-jax-ws-demo/services/pawel/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
