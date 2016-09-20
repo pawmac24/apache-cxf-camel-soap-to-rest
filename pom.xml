@@ -106,6 +106,7 @@
 									<!--<wsdl>http://localhost:8080/apache-cxf-jax-ws-demo/services/orders?wsdl</wsdl>-->
 									<wsdl>${basedir}/src/main/resources/wsdl/Orders.wsdl</wsdl>
 									<wsdl>${basedir}/src/main/resources/wsdl/Pawel.wsdl</wsdl>
+									<wsdl>${basedir}/src/main/resources/wsdl/Robert.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
