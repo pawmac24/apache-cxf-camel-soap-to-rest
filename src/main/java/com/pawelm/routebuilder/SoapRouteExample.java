@@ -2,6 +2,7 @@ package com.pawelm.routebuilder;
 
 import com.company.pm.schema.pawelschema.FirstOperationRequestType;
 import com.company.pm.schema.pawelschema.FirstOperationResponseType;
+import com.company.rk.schema.robertschema.ObjectFactory;
 import com.company.rk.schema.robertschema.SecondOperationRequestType;
 import com.company.rk.schema.robertschema.SecondOperationResponseType;
 import com.pawelm.service.OrderService;
@@ -63,7 +64,16 @@ public class SoapRouteExample extends RouteBuilder {
 //				exchange.getIn().setHeader("operationNamespace", "http://www.rk.company.com/service/Robert/");
 //				exchange.getIn().setHeader("SOAPAction", "http://www.rk.company.com/Robert/SecondOperation");
 			}
-		}).log("pawelEndpoint after = ${body}");//.to("cxf:bean:robertEndpoint");
+		}).log("pawelEndpoint after = ${body}").process(new Processor() {
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				FirstOperationResponseType bodyContent = (FirstOperationResponseType) exchange.getIn().getBody();
+				ObjectFactory objectFactory = new ObjectFactory();
+				SecondOperationRequestType secondOperationRequestType = objectFactory.createSecondOperationRequestType();
+				secondOperationRequestType.setInFirstParam(bodyContent.getOutFirstParam());
+//				exchange.getIn().setBody(secondOperationRequestType);
+			}
+		});//.to("cxf:bean:robertEndpoint");
 
 		from("cxf:bean:robertEndpoint").log("robertEndpoint before = ${body}").process(new Processor() {
 
