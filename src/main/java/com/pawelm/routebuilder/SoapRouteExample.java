@@ -1,5 +1,9 @@
 package com.pawelm.routebuilder;
 
+import com.company.pm.schema.pawelschema.FirstOperationRequestType;
+import com.company.pm.schema.pawelschema.FirstOperationResponseType;
+import com.company.rk.schema.robertschema.SecondOperationRequestType;
+import com.company.rk.schema.robertschema.SecondOperationResponseType;
 import com.pawelm.service.OrderService;
 import com.pawelm.service.PawelService;
 import com.pawelm.service.RobertService;
@@ -28,7 +32,9 @@ public class SoapRouteExample extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		from("cxf:bean:orders").log("${body}").process(new Processor() {
+		from("direct:start").routeId("wsClient").to("cxf:bean:orders");
+
+		from("cxf:bean:orders").routeId("ordersRoute").log("orders before = ${body}").process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {
@@ -39,32 +45,37 @@ public class SoapRouteExample extends RouteBuilder {
 
 				exchange.getIn().setBody(response);
 			}
-		}).log("Body after ${body}");
+		}).log("orders after = ${body}");
 
-		from("cxf:bean:pawelEndpoint").log("${body}").process(new Processor() {
 
-			@Override
-			public void process(Exchange exchange) throws Exception {
+		from("direct:start2").routeId("wsClientPawel").to("cxf:bean:pawelEndpoint");
 
-				String message = exchange.getIn().getBody(String.class);
-				String response = pawelService.processRequest(message);
-				exchange.getIn().setBody(response);
-				exchange.getIn().setHeader("operationName", "SecondOperation");
-				exchange.getIn().setHeader("operationNamespace", "http://www.rk.company.com/Robert/");
-				exchange.getIn().setHeader("SOAPAction", "http://www.rk.company.com/Robert/SecondOperation");
-			}
-		}).log("Body after ${body}").to("cxf:bean:robertEndpoint");
-
-		from("cxf:bean:robertEndpoint").log("${body}").process(new Processor() {
+		from("cxf:bean:pawelEndpoint").log("pawelEndpoint before = ${body}").process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {
 
-				String message = exchange.getIn().getBody(String.class);
-				String response = robertService.processRequest(message);
+				MessageContentsList message = (MessageContentsList) exchange.getIn().getBody();
+				FirstOperationRequestType request = (FirstOperationRequestType) message.get(0);
+				FirstOperationResponseType response = pawelService.processRequest(request);
+				exchange.getIn().setBody(response);
+//				exchange.getIn().setHeader("operationName", "SecondOperation");
+//				exchange.getIn().setHeader("operationNamespace", "http://www.rk.company.com/service/Robert/");
+//				exchange.getIn().setHeader("SOAPAction", "http://www.rk.company.com/Robert/SecondOperation");
+			}
+		}).log("pawelEndpoint after = ${body}");//.to("cxf:bean:robertEndpoint");
+
+		from("cxf:bean:robertEndpoint").log("robertEndpoint before = ${body}").process(new Processor() {
+
+			@Override
+			public void process(Exchange exchange) throws Exception {
+
+				MessageContentsList message = (MessageContentsList) exchange.getIn().getBody();
+				SecondOperationRequestType request = (SecondOperationRequestType) message.get(0);
+				SecondOperationResponseType response = robertService.processRequest(request);
 				exchange.getIn().setBody(response);
 			}
-		}).log("Body after ${body}");
+		}).log("robertEndpoint after = ${body}");
 
 	}
 }

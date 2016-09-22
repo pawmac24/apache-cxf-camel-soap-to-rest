@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.pm.company.com/schema/PawelSchema"
+	xmlns:tns="http://www.pm.company.com/schema/PawelSchema"
+	elementFormDefault="qualified">
+
+	<xsd:element name="firstOperationRequest" type="tns:FirstOperationRequestType"></xsd:element>
+	<xsd:element name="firstOperationResponse" type="tns:FirstOperationResponseType"></xsd:element>
+
+	<xsd:complexType name="FirstOperationRequestType">
+		<xsd:sequence>
+			<xsd:element name="inFirstParam" minOccurs="1" maxOccurs="1" type="xsd:string" />
+			<xsd:element name="inSecondParam" minOccurs="1" maxOccurs="1" type="xsd:string" />
+			<xsd:element name="inThirdParam" minOccurs="1" maxOccurs="1" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="FirstOperationResponseType">
+		<xsd:sequence>
+			<xsd:element name="outFirstParam" minOccurs="1" maxOccurs="1" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

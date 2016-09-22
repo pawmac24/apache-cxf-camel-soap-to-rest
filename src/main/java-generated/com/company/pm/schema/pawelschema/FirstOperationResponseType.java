@@ -1,5 +1,5 @@
 
-package com.company.pm.schema.pawel;
+package com.company.pm.schema.pawelschema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,16 +8,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for FirstOperationType complex type.
+ * <p>Java class for FirstOperationResponseType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="FirstOperationType">
+ * &lt;complexType name="FirstOperationResponseType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="in" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="outFirstParam" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,36 +27,36 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FirstOperationType", propOrder = {
-    "in"
+@XmlType(name = "FirstOperationResponseType", propOrder = {
+    "outFirstParam"
 })
-public class FirstOperationType {
+public class FirstOperationResponseType {
 
     @XmlElement(required = true)
-    protected String in;
+    protected String outFirstParam;
 
     /**
-     * Gets the value of the in property.
+     * Gets the value of the outFirstParam property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIn() {
-        return in;
+    public String getOutFirstParam() {
+        return outFirstParam;
     }
 
     /**
-     * Sets the value of the in property.
+     * Sets the value of the outFirstParam property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIn(String value) {
-        this.in = value;
+    public void setOutFirstParam(String value) {
+        this.outFirstParam = value;
     }
 
 }

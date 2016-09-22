@@ -9,19 +9,29 @@
 	xsi:schemaLocation="http://cxf.apache.org/transports/camel http://cxf.apache.org/transports/camel.xsd
 		http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
 	<context:component-scan base-package="com.pawelm" />
 	
-	<bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
-	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	<bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor">
+		<property name="prettyLogging" value="true" /> <!-- XML Output formatting  -->
+	</bean>
+	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor">
+		<property name="prettyLogging" value="true" /> <!-- XML Output formatting  -->
+	</bean>
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:config.properties</value>
+		</property>
+	</bean>
 	<!-- setting up a Camel CXF web-service -->
+	<!--wsdlURL="wsdl/Orders.wsdl"-->
 	<cxf:cxfEndpoint id="orders"
-					 address="http://localhost:9000/order/"
-		serviceClass="com.pluralsight.service.orders.Orders"
-		wsdlURL="http://localhost:8080/apache-cxf-jax-ws-demo/services/orders?wsdl">
+					 address="http://localhost:${port1}/order/"
+					 serviceClass="com.pluralsight.service.orders.Orders"
+		>
 		<cxf:inInterceptors>
 			<ref bean="loggingInInterceptor" />
 		</cxf:inInterceptors>
@@ -30,10 +40,11 @@
 		</cxf:outInterceptors>
 	</cxf:cxfEndpoint>
 
+	<!--wsdlURL="wsdl/Pawel.wsdl"-->
 	<cxf:cxfEndpoint id="pawelEndpoint"
-					 address="http://localhost:9000/pawel/"
-					 serviceClass="com.company.pm.pawel.Pawel"
-					 wsdlURL="http://localhost:8080/apache-cxf-jax-ws-demo/services/pawel?wsdl">
+					 address="http://localhost:${port1}/pawel/"
+					 serviceClass="com.company.pm.service.pawel.Pawel"
+					 >
 		<cxf:inInterceptors>
 			<ref bean="loggingInInterceptor" />
 		</cxf:inInterceptors>
@@ -42,10 +53,11 @@
 		</cxf:outInterceptors>
 	</cxf:cxfEndpoint>
 
+	<!--wsdlURL="wsdl/Robert.wsdl"-->
 	<cxf:cxfEndpoint id="robertEndpoint"
-					 address="http://localhost:9000/robert/"
-					 serviceClass="com.company.rk.robert.Robert"
-					 wsdlURL="http://localhost:8080/apache-cxf-jax-ws-demo/services/robert?wsdl">
+					 address="http://localhost:${port1}/robert/"
+					 serviceClass="com.company.rk.service.robert.Robert"
+					 >
 		<cxf:inInterceptors>
 			<ref bean="loggingInInterceptor" />
 		</cxf:inInterceptors>

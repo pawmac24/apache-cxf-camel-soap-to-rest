@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.rk.company.com/schema/RobertSchema"
+	xmlns:tns="http://www.rk.company.com/schema/RobertSchema"
+	elementFormDefault="qualified">
+
+	<xsd:element name="secondOperationRequest" type="tns:SecondOperationRequestType"></xsd:element>
+	<xsd:element name="secondOperationResponse" type="tns:SecondOperationResponseType"></xsd:element>
+
+	<xsd:complexType name="SecondOperationRequestType">
+		<xsd:sequence>
+			<xsd:element name="inFirstParam" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SecondOperationResponseType">
+		<xsd:sequence>
+			<xsd:element name="outFirstParam" minOccurs="1" maxOccurs="1" type="xsd:string" />
+			<xsd:element name="outSecondParam" minOccurs="1" maxOccurs="1" type="xsd:string" />
+			<xsd:element name="outThirdParam" minOccurs="1" maxOccurs="1" type="xsd:int" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
