@@ -60,20 +60,25 @@ public class SoapRouteExample extends RouteBuilder {
 				FirstOperationRequestType request = (FirstOperationRequestType) message.get(0);
 				FirstOperationResponseType response = pawelService.processRequest(request);
 				exchange.getIn().setBody(response);
-//				exchange.getIn().setHeader("operationName", "SecondOperation");
-//				exchange.getIn().setHeader("operationNamespace", "http://www.rk.company.com/service/Robert/");
-//				exchange.getIn().setHeader("SOAPAction", "http://www.rk.company.com/Robert/SecondOperation");
 			}
-		}).log("pawelEndpoint after = ${body}").process(new Processor() {
+		}).log("pawelEndpoint after = ${body}")
+				.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
 				FirstOperationResponseType bodyContent = (FirstOperationResponseType) exchange.getIn().getBody();
 				ObjectFactory objectFactory = new ObjectFactory();
-				SecondOperationRequestType secondOperationRequestType = objectFactory.createSecondOperationRequestType();
-				secondOperationRequestType.setInFirstParam(bodyContent.getOutFirstParam());
+//				SecondOperationRequestType secondOperationRequestType = objectFactory.createSecondOperationRequestType();
+//				secondOperationRequestType.setInFirstParam(bodyContent.getOutFirstParam());
 //				exchange.getIn().setBody(secondOperationRequestType);
+//				exchange.getIn().setHeader("operationName", "SecondOperation");
+//				exchange.getIn().setHeader("operationNamespace", "http://www.rk.company.com/service/Robert/");
+//				exchange.getIn().setHeader("SOAPAction", "http://www.rk.company.com/service/Robert/SecondOperation");
 			}
-		});//.to("cxf:bean:robertEndpoint");
+		});
+//				.setHeader("operationName").constant("SecondOperation")
+//				.setHeader("operationNamespace").constant("http://www.rk.company.com/service/Robert/")
+//				.setHeader("SOAPAction").constant("http://www.rk.company.com/service/Robert/SecondOperation")
+//		.to("cxf:bean:robertEndpoint");
 
 		from("cxf:bean:robertEndpoint").log("robertEndpoint before = ${body}").process(new Processor() {
 
